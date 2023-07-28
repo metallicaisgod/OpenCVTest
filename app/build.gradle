@@ -1,0 +1,78 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.bytedeco.gradle-javacpp-platform' version '1.5.9'
+}
+
+android {
+    namespace 'com.example.opencvtest'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.example.opencvtest"
+        minSdk 29
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    buildFeatures {
+        viewBinding  true
+    }
+
+    packagingOptions {
+        pickFirst 'META-INF/native-image/android-x86/jnijavacpp/jni-config.json'
+        pickFirst 'META-INF/native-image/android-x86/jnijavacpp/reflect-config.json'
+        pickFirst 'META-INF/native-image/android-x86_64/jnijavacpp/jni-config.json'
+        pickFirst 'META-INF/native-image/android-x86_64/jnijavacpp/reflect-config.json'
+        pickFirst 'META-INF/native-image/android-arm/jnijavacpp/jni-config.json'
+        pickFirst 'META-INF/native-image/android-arm/jnijavacpp/reflect-config.json'
+        pickFirst 'META-INF/native-image/android-arm64/jnijavacpp/jni-config.json'
+        pickFirst 'META-INF/native-image/android-arm64/jnijavacpp/reflect-config.json'
+//        exclude 'META-INF/native-image/ios-arm64/jnijavacpp/jni-config.json'
+//        exclude 'META-INF/native-image/ios-x86_64/jnijavacpp/reflect-config.json'
+//        exclude 'META-INF/native-image/linux-x86_64/jnijavacpp/jni-config.json'
+//        exclude 'META-INF/native-image/windows-x86/jnijavacpp/reflect-config.json'
+//        exclude 'META-INF/native-image/windows-x86_64/jnijavacpp/reflect-config.json'
+//        exclude 'META-INF/native-image/windows-x86_64/jnijavacpp/jni-config.json'
+//        exclude 'META-INF/native-image/macosx-arm64/jnijavacpp/jni-config.json'
+    }
+}
+ext {
+    javacppPlatform = 'android-arm,android-x86_64,android-x86,android-arm64' // defaults to Loader.getPlatform()
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation project(path: ':opencv470')
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation group: 'org.bytedeco', name: 'javacv-platform', version: '1.5.9'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+
+//    implementation group: 'org.bytedeco', name: 'opencv-platform-gpu', version: '4.7.0-1.5.9'
+//    //implementation group: 'org.bytedeco', name: 'openblas', version: '0.3.23-1.5.9'
+//    implementation 'org.bytedeco:ffmpeg:6.0-1.5.9'
+}
